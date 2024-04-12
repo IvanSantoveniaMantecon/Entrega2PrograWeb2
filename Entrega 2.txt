@@ -11,102 +11,10 @@ En Vue.js, las funciones ref y reactive son utilizadas para crear datos reactivo
 Computed y Watch:
 * Computed: La función computed se utiliza para definir propiedades computadas en un componente Vue. Estas propiedades se calculan dinámicamente en función de otras propiedades reactivas, y se actualizan automáticamente cuando cambian las dependencias.
 
-
-import { ref, computed } from 'vue';
-
-
-const count = ref(0);
-
-
-const squaredCount = computed(() => {
-  return count.value * count.value;
-});
-
-
-console.log(squaredCount.value); // 0
-
-
-count.value++;
-console.log(squaredCount.value); // 1
-
-
 * Watch:La función watch se utiliza para observar cambios en una propiedad o un conjunto de propiedades y realizar acciones en respuesta a esos cambios.
-
-
-import { ref, watch } from 'vue';
-
-
-const count = ref(0);
-
-
-watch(count, (newValue, oldValue) => {
-  console.log(`El contador cambió de ${oldValue} a ${newValue}`);
-});
-
-
-count.value++; // "El contador cambió de 0 a 1" será impreso en la consola
-
 
 La mayor diferencia es que Computed se utiliza para calcular valores basados en otras propiedades reactivas y es útil para derivar valores de manera eficiente mientras que Watch, está a la espera de que una variable reactive sea modificada para ejecutar una serie de acciones-
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Reactividad en Svelte:
 En Svelte, puedes usar la etiqueta {#if} para crear condicionales y utilizar la asignación reactiva ($:) para crear variables computadas.
-* Ejemplo 1: Calcular el cuadrado de un número utilizando la asignación reactiva.
-
-
-<script>
-  let count = 0;
-  
-  $: squaredCount = count * count;
-</script>
-
-
-<h1>{count} al cuadrado es {squaredCount}</h1>
-
-
-<button on:click={() => count += 1}>Incrementar</button>
-
-
-Cuando el usuario hace clic en el botón "Incrementar", la variables count se incrementa y automáticamente se recalcula squaredcount, que muestra el cuadrado del número actual.
-
-
-* Ejemplo 2: Vamos a observar un cambio en una variable y realizar una acción en respuesta a ese cambio.
-
-
-<script>
-  let count = 0;
-
-
-  function handleCountChange(newValue, oldValue) {
-    console.log(`El contador cambió de ${oldValue} a ${newValue}`);
-  }
-
-
-  $: {
-    handleCountChange(count, count - 1);
-  }
-</script>
-
-
-<h1>Contador: {count}</h1>
-
-
-<button on:click={() => count += 1}>Incrementar</button>
-
-
-Cada vez que count cambia, se ejecuta la función handleCountChange, que muestra un mensaje en la consola con el valor anterior y el nuevo valor del contador.

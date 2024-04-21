@@ -2,14 +2,14 @@
   <div>
     <h1>Saludo Personalizado</h1>
     <!-- Componente del selector de idioma -->
-    <LanguageSelector />
+    <LanguageSelector :state="state" />
     <!-- Componente del saludo personalizado -->
-    <Greeting />
+    <Greeting :greeting="greeting" />
   </div>
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import Greeting from './components/Greeting.vue';
 import LanguageSelector from './components/LanguageSelector.vue';
 
@@ -19,36 +19,46 @@ export default {
     LanguageSelector
   },
   setup() {
-    // Variable reactiva para almacenar el nombre
-    const name = ref('');
-    
-    // Objeto reactivo para almacenar el estado de la aplicación
-    const state = reactive({
+    // Variable ref para almacenar el estado de la aplicación
+    const state = ref({
+      name: '',
       selectedLanguage: 'es'
     });
 
-    // Variable reactiva para almacenar el saludo
-    const greeting = ref('¡Bienvenido!');
-
-    // Observa cambios en el nombre y el idioma seleccionado
-    watch([name, () => state.selectedLanguage], ([newName]) => {
-      switch (state.selectedLanguage) {
+    // Variable computada para calcular el saludo
+    const greeting = computed(() => {
+      switch (state.value.selectedLanguage) {
         case 'es':
-          greeting.value = `¡Hola, ${newName}!`;
-          break;
+          return `¡Hola, ${state.value.name}!`;
         case 'en':
-          greeting.value = `Hello, ${newName}!`;
-          break;
+          return `Hello, ${state.value.name}!`;
         case 'fr':
-          greeting.value = `Bonjour, ${newName}!`;
-          break;
+          return `Bonjour, ${state.value.name}!`;
         default:
-          greeting.value = `¡Hola, ${newName}!`;
+          return `¡Hola, ${state.value.name}!`;
       }
     });
 
+    // Vigila los cambios en selectedLanguage y actualiza el saludo
+    watch(() => state.value.selectedLanguage, () => {
+      greeting.value = computeGreeting();
+    });
+
+    // Función para calcular el saludo
+    function computeGreeting() {
+      switch (state.value.selectedLanguage) {
+        case 'es':
+          return `¡Hola, ${state.value.name}!`;
+        case 'en':
+          return `Hello, ${state.value.name}!`;
+        case 'fr':
+          return `Bonjour, ${state.value.name}!`;
+        default:
+          return `¡Hola, ${state.value.name}!`;
+      }
+    }
+
     return {
-      name,
       state,
       greeting
     };

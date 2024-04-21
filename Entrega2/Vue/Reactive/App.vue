@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import Greeting from './components/Greeting.vue';
 import LanguageSelector from './components/LanguageSelector.vue';
 
@@ -25,8 +25,23 @@ export default {
       selectedLanguage: 'es'
     });
 
+    // Variable computada para calcular el saludo
+    const greeting = computed(() => {
+      switch (state.selectedLanguage) {
+        case 'es':
+          return `¡Hola, ${state.name}!`;
+        case 'en':
+          return `Hello, ${state.name}!`;
+        case 'fr':
+          return `Bonjour, ${state.name}!`;
+        default:
+          return `¡Hola, ${state.name}!`;
+      }
+    });
+
     return {
-      state
+      state,
+      greeting
     };
   }
 };

@@ -2,14 +2,14 @@
   <div>
     <h1>Saludo Personalizado</h1>
     <!-- Componente del selector de idioma -->
-    <LanguageSelector />
+    <LanguageSelector :state="state" />
     <!-- Componente del saludo personalizado -->
-    <Greeting />
+    <Greeting :greeting="greeting" />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Greeting from './components/Greeting.vue';
 import LanguageSelector from './components/LanguageSelector.vue';
 
@@ -19,17 +19,29 @@ export default {
     LanguageSelector
   },
   setup() {
-    // Variable reactiva para almacenar el nombre
-    const name = ref('');
+    // Variable ref para almacenar el estado de la aplicación
+    const state = ref({
+      name: '',
+      selectedLanguage: 'es'
+    });
 
-    // Función para actualizar el nombre
-    const updateName = (newName) => {
-      name.value = newName;
-    };
+    // Variable computada para calcular el saludo
+    const greeting = computed(() => {
+      switch (state.value.selectedLanguage) {
+        case 'es':
+          return `¡Hola, ${state.value.name}!`;
+        case 'en':
+          return `Hello, ${state.value.name}!`;
+        case 'fr':
+          return `Bonjour, ${state.value.name}!`;
+        default:
+          return `¡Hola, ${state.value.name}!`;
+      }
+    });
 
     return {
-      name,
-      updateName
+      state,
+      greeting
     };
   }
 };

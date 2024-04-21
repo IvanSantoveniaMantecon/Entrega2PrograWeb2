@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { inject } from 'vue';
+
 export default {
   setup() {
     // Importamos el objeto reactivo `state` del componente padre

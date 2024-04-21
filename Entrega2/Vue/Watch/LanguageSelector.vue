@@ -8,13 +8,6 @@
 
 <script>
 export default {
-  setup() {
-    // Importa el objeto reactivo `state` del componente padre
-    const state = inject('state');
-
-    return {
-      state
-    };
-  }
+  props: ['state']
 };
 </script>

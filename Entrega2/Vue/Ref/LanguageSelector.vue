@@ -1,5 +1,5 @@
 <template>
-  <select v-model="selectedLanguage">
+  <select v-model="state.selectedLanguage">
     <option value="es">Español</option>
     <option value="en">Inglés</option>
     <option value="fr">Francés</option>
@@ -8,11 +8,6 @@
 
 <script>
 export default {
-  setup() {
-    // No necesitamos variables reactivas en este componente
-    return {
-      selectedLanguage: 'es' // Por defecto, seleccionamos el español
-    };
-  }
+  props: ['state']
 };
 </script>
